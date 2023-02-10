@@ -4,8 +4,14 @@ Created on Thu Nov 12 14:04:16 2022
 
 @author: Xingrui Song
 """
+from packaging import version
+from platform import python_version
 
-from shared_memory import SharedMemory
+if version.parse(python_version()) > version.parse('3.8'):
+    from multiprocessing.shared_memory import SharedMemory
+else:
+    from shared_memory import SharedMemory
+
 from collections import deque
 import pickle
 import time
