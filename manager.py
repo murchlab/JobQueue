@@ -381,8 +381,9 @@ class JobQueue:
             if self.pbar is None:
                 self.pbar = tqdm(total=current_job['total'], bar_format="{l_bar}{bar} [time left: {remaining}]", leave=leave)
                 
-            self.pbar.n = jobqueue['finished']
-            self.pbar.last_print_n = jobqueue['finished']
+            if (self.pbar.last_print_n == 0) and jobqueue['finished'] :
+                self.pbar.last_print_t = self.pbar.start_t = self.pbar._time()
+            self.pbar.last_print_n = self.pbar.n = jobqueue['finished']
             self.pbar.refresh()
             
     def close_pbar(self):
